@@ -1,0 +1,22 @@
+{
+  "name": "Paris grève info",
+  "short_name": "Paris grève",
+  "description": "L'information sur les grèves en temps réel.",
+  "icons": [
+    {
+      "src": "images/manifest/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/manifest/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#42a5f5",
+  "background_color": "#ffffff",
+  "gcm_sender_id": "103953800507"
+}

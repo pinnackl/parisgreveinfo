@@ -1,0 +1,229 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="pinnackl-notification">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+
+      :host([open]) {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 900;
+        height: 100vh;
+        background-color: rgba(33, 33, 33, 0.6392156862745098);
+      }
+
+      section.modal {
+        width: 100%;
+        height: 100%;
+
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-align-content: stretch;
+        -ms-flex-line-pack: stretch;
+        align-content: stretch;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+      }
+
+      dialog {
+        display: none;
+        border: none;
+        border-radius: 3px;
+        width: 80%;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 18px 0 rgba(0, 0, 0, 0.12),
+                    0 3px 5px -1px rgba(0, 0, 0, 0.4);
+      }
+
+      dialog[open] {
+        display: block;
+      }
+
+      paper-button {
+        color: var(--app-primary-color);
+      }
+
+      dialog h3 {
+        font-size: 1em;
+        color: var(--light-text-color);
+      }
+
+      section.actions {
+        text-align: right;
+      }
+
+      @media (min-width: 768px) {
+        dialog {
+          width: 30%;
+        }
+      }
+    </style>
+
+    <firebase-messaging
+      id="messaging"
+      on-message="message"
+      token="{{token}}"></firebase-messaging>
+    <firebase-auth id="auth" user="{{user}}"></firebase-auth>
+    <firebase-document
+      id="doc"
+      path="/users/[[user.uid]]/token"
+      data="[[token]]"></firebase-document>
+    <section class="modal">
+       <dialog id="favDialog" open$="[[open]]">
+        <h3>To keep hear from us, activate notifications</h3>
+        <section class="actions">
+          <paper-button on-tap="_discardNotification">CANCEL</paper-button>
+          <paper-button on-tap="_grantNotification">OK</paper-button>
+        </section>
+      </dialog>
+    </section>
+  </template>
+
+  <script>
+    class PinnacklNotification extends Polymer.LegacyElementMixin(Polymer.Element) {
+      static get is() { return 'pinnackl-notification'; }
+      static get properties() {
+        return {
+          open: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true
+          },
+          position: {
+            type: Object,
+          },
+          latitude: {
+            type: Number
+          },
+          longitude: {
+            type: Number
+          },
+          options: {
+            type: Object,
+            value: () => {
+              return {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+              };
+            }
+          },
+          notificationGranted: {
+            type: Boolean
+          },
+          token: {
+            type: String,
+            value: "",
+            observer: 'tokerChanged'
+          },
+        };
+      }
+
+      ready() {
+        super.ready();
+
+        this.set('config', window.config);
+
+        // Add click event listener on the geo element
+        // Need to add container element to handle click focus
+        // 
+        // Handle any click on the element and check if the target is
+        // the dialog element.
+        this.root.addEventListener('click', (e) => {
+          if (e.target.querySelectorAll('dialog').length)
+            this.set('open', false);
+        });
+
+        // Define if the sessionStorage was previoussly defined
+        const notificationGranted = window.sessionStorage.getItem('notificationGranted');
+        if (notificationGranted == null || notificationGranted == "false")
+          return window.sessionStorage.setItem('notificationGranted', false);
+
+        this._grantNotification();
+      }
+
+      askForNotification() {
+        let notificationGranted = window.sessionStorage.getItem('notificationGranted');
+        if (notificationGranted == "false") {
+          this.set('open', true);
+        } else {
+          this.set('token', "null");
+          window.sessionStorage.setItem('notificationGranted', false);
+          // permission was denied
+          this.fire('notification-permission', {granted: false});
+          this.set('open', false);
+        }
+      }
+
+      message(e) {
+        this.fire('message-receive', {message: e.detail.message});
+      }
+
+      tokerChanged(token) {
+        if (token != 'null') window.sessionStorage.setItem('token', token);
+      }
+
+      _grantNotification() {
+        if ('PushManager' in window) {
+          this.$.messaging.requestPermission().then(() => {
+            
+            if (this.token == 'null' || this.token == window.sessionStorage.getItem('token')) {
+              this.set('token', window.sessionStorage.getItem('token'));
+              this.$.doc.setStoredValue(this.$.doc.path, this.token);
+            }
+            // Keep in session the granted auth in session
+            window.sessionStorage.setItem('notificationGranted', true);
+            // Close the dialog
+            this.set('open', false);
+            this.fire('notification-permission', {granted: true});
+          }, (err) => {
+            // permission was denied
+            this.fire('notification-permission', {granted: false, error: err});
+            this.set('open', false);
+          });
+        } else {
+          // ...
+        }
+      }
+
+      _discardNotification() {
+        this.set('open', false);
+      }
+
+      _guid() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+      }
+
+    }
+
+    window.customElements.define(PinnacklNotification.is, PinnacklNotification);
+  </script>
+</dom-module>

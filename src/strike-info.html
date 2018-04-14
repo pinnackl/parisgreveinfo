@@ -1,0 +1,169 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="strike-info">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+        box-sizing: content-box;
+      }
+
+      .card .animation {
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 1.5em;
+        color: var(--app-primary-color);
+        margin: 0;
+      }
+
+      h2 {
+        display: inline-block;
+        margin: 0 0.5em; 
+      }
+
+      img {
+        width: 100%;
+        max-width: 768px;
+        border-radius: 1px;
+        object-fit: contain;
+        max-height: 500px;
+      }
+      .flex-horizontal {
+        display: flex;
+        justify-content: flex-start; /* align horizontal */
+        align-items: center; /* align vertical */
+      }
+
+      .flex-horizontal-space {
+        justify-content: space-between;
+      }
+
+      .trafic-state {
+        padding: 0.5em 0;
+      }
+
+      .card.border {
+        border-left: solid 8px orange;
+      }
+
+      paper-button {
+        background-color: var(--app-primary-color);
+        color: #ffffff;
+      }
+
+      iron-icon {
+        color: orange;
+      }
+
+      a {
+        color: var(--app-primary-color);
+      }
+    </style>
+    <div class="card flex-horizontal flex-horizontal-space">
+      <h1>[[getLocalDate()]]</h1>
+    </div>
+    <template is="dom-if" if={{isStrikeTomorrow()}}>
+      <p class="card border"><iron-icon icon="greve-icon:info-outline"></iron-icon>&nbsp;La grève se poursuit demain !<br><small>Les mouvements sociaux débutent généralement la veille vers 19 heures.</small></p>
+    </template>
+    <div class="card">
+      <template is="dom-if" if={{isStrike()}}>
+        <div class="flex-horizontal trafic-state">
+          <div class="circle orange"></div><h2>Perturbations !</h2>  
+        </div>
+        <div class="animation">
+          <img src="../images/gifs/[[getGif()]].gif">
+        </div>
+        <p>Le trafic est fortement perturbé, voir <a href="/trafic">l'info trafic</a> en temps réel.</p>
+      </template>
+      <template is="dom-if" if={{!isStrike()}}>
+        <div class="flex-horizontal trafic-state">
+          <div class="circle green"></div><h2>Pas de mouvement de grève aujourd'hui</h2>
+        </div>
+        <div class="animation">
+          <img src="../images/gifs/green.gif">
+        </div>
+        <p>Le trafic peut cependant être perturbé, voir <a href="/trafic">l'info trafic</a> en temps réel.</p>
+      </template>
+    </div>
+  </template>
+
+  <script>
+    class StrikeInfo extends Polymer.Element {
+      static get is() { return 'strike-info'; }
+      static get properties() {
+        return {
+          today: {
+            type: Object,
+            value: () => {
+              return new Date();
+            }
+          },
+          dates: {
+            type: Array,
+            value: () => {
+              return {
+                3: [3,4,8,9,13,14,19,23,24,28,29],
+                // 4: [3,4,8,9,13,14,18,19,23,24,28,29],
+                4: [3,4,8,9,13,14,15,18,19,23,24,28,29],
+                5: [2,3,7,8,12,13,17,18,22,23,27,28]
+              }
+            }
+          }
+        };
+      }
+
+      getGif() {
+        const gifs = ['orange', 'red', 'black'];
+        return gifs[Math.floor(Math.random() * gifs.length)]
+      }
+
+      getDate() {
+        return this.today.getDate();
+      }
+
+      getMonth() {
+        return this.today.getMonth() + 1;
+      }
+
+      getLocalDate() {
+        return this._ucfirst(this.today.toLocaleDateString('fr-FR', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        }));
+      }
+
+      isStrike() {
+        if (this.dates[this.getMonth()] && this.dates[this.getMonth()].includes(this.getDate())) return true;
+        return false;
+      }
+
+      isStrikeTomorrow() {
+        if (this.dates[this.getMonth()] && this.dates[this.getMonth()].includes(this.getDate()+1)) return true;
+        return false;
+      }
+
+      _ucfirst(string) {
+        if (string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        return '';
+      }
+    }
+
+    window.customElements.define(StrikeInfo.is, StrikeInfo);
+  </script>
+</dom-module>

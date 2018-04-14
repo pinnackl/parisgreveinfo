@@ -1,0 +1,189 @@
+{
+    "result": {
+        "metros": [
+            {
+                "line": "1",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "2",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "3",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "3B",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "4",
+                "slug": "normal_trav",
+                "title": "Travaux",
+                "message": "03:00, la station Gare du Nord est fermée jusqu'au 12/06/18 fin de service. (travaux)"
+            },
+            {
+                "line": "5",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "6",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "7",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "7B",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "8",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "9",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "10",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "11",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "12",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "13",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "14",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            }
+        ],
+        "rers": [
+            {
+                "line": "A",
+                "slug": "normal_trav",
+                "title": "Travaux",
+                "message": "le trafic est interrompu de Sartrouville vers Poissy de 23:45 à fin de service jusqu'au 13/04/18. Bus de remplacement à dispo. (travaux)"
+            },
+            {
+                "line": "B",
+                "slug": "alerte",
+                "title": "Trafic perturbé",
+                "message": "10/04/18, 07:11, le trafic est perturbé sur la ligne (panne de signalisation)"
+            },
+            {
+                "line": "C",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "D",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "E",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            }
+        ],
+        "tramways": [
+            {
+                "line": "1",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "2",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "3A",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "3B",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "5",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "6",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            },
+            {
+                "line": "7",
+                "slug": "normal_trav",
+                "title": "Travaux",
+                "message": "le trafic est interrompu entre COEUR D'ORLY et PORTE DE L'ESSONNE de 21:00 à fin de service jusqu'au 12/04/18. Bus de remplacement à dispo. (travaux de rénovation)"
+            },
+            {
+                "line": "8",
+                "slug": "normal",
+                "title": "Trafic normal",
+                "message": "Trafic normal sur l'ensemble de la ligne."
+            }
+        ]
+    },
+    "_metadata": {
+        "call": "GET /traffic",
+        "date": "2018-04-10T08:28:10+02:00",
+        "version": 3
+    }
+}

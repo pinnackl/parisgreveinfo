@@ -1,0 +1,175 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+<link rel="import" href="greve-icon.html">
+
+<dom-module id="strike-trafic">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+
+      .card > header img {
+        max-width: 64px;
+        vertical-align: middle;
+      }
+
+      .card > header h2 {
+        display: inline-block;
+      }
+
+      .card > header {
+        padding-left: 0.5em;
+        max-width: 60%;
+        border-bottom: solid 2px var(--app-primary-color);
+      }
+
+      .trafic .lines img {
+        width: 24px;
+        vertical-align: middle;
+      }
+
+      .trafic .lines h3 {
+        display: inline-block;
+      }
+
+      .trafic main {
+        border-left: solid 6px var(--app-primary-color);
+        min-height: 100px;
+        padding: 0.5em 1em;
+        background-color: #f5f5f5;
+      }
+
+      .trafic main h4 {
+        margin: 0;
+      }
+
+      paper-tabs {
+        --paper-tabs-selection-bar-color: var(--app-primary-color);
+        --paper-tab-ink: var(--app-primary-color);
+        padding: 0 !important;
+      }
+
+      paper-tab iron-icon {
+        margin-left: 0.3em;
+      }
+    </style>
+
+    <iron-ajax
+       auto
+       url="[[config.apiUrl]]"
+       handle-as="json"
+       last-response="{{traficStatus}}"></iron-ajax>
+    <app-indexeddb-mirror
+        key="trafic-ratp"
+        data="{{traficStatus}}"
+        persisted-data="{{persistedData}}"></app-indexeddb-mirror>
+
+    <paper-tabs class="card" selected="{{selected}}" attr-for-selected="name">
+      <paper-tab name="rer">RER<iron-icon src="/images/ratp/rer.svg"></iron-icon></paper-tab>
+      <paper-tab name="trams">Tramways<iron-icon src="/images/ratp/tram.svg"></iron-icon></paper-tab>
+      <paper-tab name="metro">Métro<iron-icon src="/images/ratp/metro.svg"></iron-icon></paper-tab>
+    </paper-tabs>
+    <iron-pages selected="{{selected}}" attr-for-selected="name">
+      <section class="card rer" name="rer">
+        <header>
+          <img src="/images/ratp/rer.svg">
+          <h2>RER</h2>
+        </header>
+        <main>
+          <template is="dom-repeat" items={{persistedData.result.rers}} 
+            as=line index-as=index>
+            <section class="trafic">
+              <header class="lines">
+                <img src$="/images/ratp/rer/ligne[[line.line]].svg">
+                <h3>Linge [[line.line]]</h3>
+              </header>
+              <main>
+                <h4>[[line.title]]</h4>
+                <p>[[line.message]]</p>
+              </main>
+            </section>
+          </template>
+        </main>
+      </section>
+      <section class="card tram" name="trams">
+        <header>
+          <img src="/images/ratp/tram.svg">
+          <h2>Tramways</h2>
+        </header>
+        <main>
+          <template is="dom-repeat" items={{persistedData.result.tramways}} 
+          as=line index-as=index>
+          <section class="trafic">
+            <header class="lines">
+              <img src$="/images/ratp/tram/ligne[[line.line]].svg">
+              <h3>Ligne [[line.line]]</h3>
+            </header>
+            <main>
+              <h4>[[line.title]]</h4>
+              <p>[[line.message]]</p>
+            </main>
+          </section>
+        </template>
+      </main>
+      </section>
+      <section class="card metro" name="metro">
+        <header>
+          <img src="/images/ratp/metro.svg">
+          <h2>Metro</h2>
+        </header>
+        <main>
+          <template is="dom-repeat" items={{persistedData.result.metros}} 
+          as=line index-as=index>
+          <section class="trafic">
+            <header class="lines">
+              <img src$="/images/ratp/metro/ligne[[line.line]].svg">
+              <h3>Linge [[line.line]]</h3>
+            </header>
+            <main>
+              <h4>[[line.title]]</h4>
+              <p>[[line.message]]</p>
+            </main>
+          </section>
+        </template>
+      </main>
+      </section>
+    </iron-pages>
+  </template>
+
+  <script>
+    class StrikeTrafic extends Polymer.Element {
+      static get is() { return 'strike-trafic'; }
+      static get properties() {
+        return {
+          config: Object,
+          selected: {type: String, value: 'rer'},
+          traficStatus: Object,
+          notificationGranted: Boolean,
+        }
+      }
+
+      ready() {
+        super.ready();
+        this.set('config', window.config);
+      }
+    }
+
+    window.customElements.define(StrikeTrafic.is, StrikeTrafic);
+  </script>
+</dom-module>
