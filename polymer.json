@@ -2,10 +2,9 @@
   "entrypoint": "index.html",
   "shell": "src/my-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/strike-info.html",
+    "src/strike-trafic.html",
+    "src/strike-404.html"
   ],
   "sources": [
     "images/**/*",
@@ -14,7 +13,9 @@
   "extraDependencies": [
     "bower_components/webcomponentsjs/*.js",
     "!bower_components/webcomponentsjs/gulpfile.js",
-    "manifest.json"
+    "!src/config.js",
+    "manifest.json",
+    "firebase-messaging-sw.js"
   ],
   "lint": {
     "rules": ["polymer-2"]
