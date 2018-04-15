@@ -1,20 +1,20 @@
 {
-  "name": "Paris grève info",
+  "name": "🚅 Paris grève info",
   "short_name": "Paris grève",
   "description": "L'information sur les grèves en temps réel.",
   "icons": [
     {
-      "src": "images/manifest/icon-192x192.png",
+      "src": "images/manifest/t-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "images/manifest/icon-512x512.png",
+      "src": "images/manifest/t-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "start_url": "/",
+  "start_url": "/?pwa",
   "display": "standalone",
   "theme_color": "#42a5f5",
   "background_color": "#ffffff",
