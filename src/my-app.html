@@ -56,6 +56,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
       }
 
+      [main-title] {
+        /* Set pointer event to allow access to the input in header bar */
+        pointer-events: auto;
+      }
+
+      [main-title] a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
@@ -147,7 +157,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header class="blueHeader" condenses reveals effects="waterfall" slot="header">
           <app-toolbar>
             <paper-icon-button icon="greve-icon:menu" drawer-toggle></paper-icon-button>
-            <div main-title><iron-icon icon="greve-icon:directions-transit"></iron-icon>Paris grève - [[page]]</div>
+            <div main-title><a href="/"><iron-icon icon="greve-icon:directions-transit"></iron-icon>Paris grève</a> - [[page]]</div>
           </app-toolbar>
         </app-header>
 
