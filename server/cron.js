@@ -66,13 +66,18 @@ jwtClient.authorize(function(error, tokens) {
             });
           });
 
+          // For more information see,
+          // https://developers.google.com/web/fundamentals/push-notifications/display-a-notification
           req.write(JSON.stringify({
-            to: token,
-            notification: {
-              title: '🚅 Hello World',
-              body: 'This is a notification',
-              click_action: "https://parisgreve.info"
-            } 
+            "to": token,
+            "notification": {
+              "badge": '/images/manifest/badge.png',
+              "title": '🚅 Paris grève info',
+              "vibrate": [2000, 100, 2000, 100, 2000],
+              "body": '😱 La grève se poursuit demain !\nLes mouvements sociaux débutent généralement la veille vers 19 heures.',
+              "click_action": "https://parisgreve.info",
+              "icon": '/images/manifest/icon-96x96.png'
+            }
           }));
           req.end();
         });
