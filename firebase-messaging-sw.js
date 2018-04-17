@@ -25,7 +25,6 @@ messaging.setBackgroundMessageHandler(function(payload) {
     body: payload.data.body,
     vibrate: payload.data.vibrate,
     click_action: payload.data.click_action,
-
   };
 
   return self.registration.showNotification(notificationTitle,

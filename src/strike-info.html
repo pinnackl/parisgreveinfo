@@ -10,6 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="strike-info">
@@ -74,32 +77,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: var(--app-primary-color);
       }
     </style>
+    <iron-ajax
+       auto
+       url$="[[config.traficUrl]]"
+       handle-as="json"
+       last-response="{{greves}}"></iron-ajax>
+    <app-indexeddb-mirror
+        key="dates-greves"
+        data="{{greves}}"
+        persisted-data="{{dates}}"></app-indexeddb-mirror>
+
     <div class="card flex-horizontal flex-horizontal-space">
       <h1>[[getLocalDate()]]</h1>
     </div>
-    <template is="dom-if" if={{isStrikeTomorrow()}}>
-      <p class="card border"><iron-icon icon="greve-icon:info-outline"></iron-icon>&nbsp;La grève se poursuit demain !<br><small>Les mouvements sociaux débutent généralement la veille vers 19 heures.</small></p>
+    <template is="dom-if" if={{dates}}>
+      <template is="dom-if" if={{isStrikeTomorrow()}}>
+        <p class="card border"><iron-icon icon="greve-icon:info-outline"></iron-icon>&nbsp;La grève se poursuit demain !<br><small>Les mouvements sociaux débutent généralement la veille vers 19 heures.</small></p>
+      </template>
+      <div class="card">
+        <template is="dom-if" if={{isStrike()}}>
+          <div class="flex-horizontal trafic-state">
+            <div class="circle orange"></div><h2>Perturbations !</h2>  
+          </div>
+          <div class="animation">
+            <img src="../images/gifs/[[getGif()]].gif">
+          </div>
+          <p>Le trafic est fortement perturbé, voir <a href="/trafic">l'info trafic</a> en temps réel.</p>
+        </template>
+        <template is="dom-if" if={{!isStrike()}}>
+          <div class="flex-horizontal trafic-state">
+            <div class="circle green"></div><h2>Pas de mouvement de grève aujourd'hui</h2>
+          </div>
+          <div class="animation">
+            <img src="../images/gifs/green.gif">
+          </div>
+          <p>Le trafic peut cependant être perturbé, voir <a href="/trafic">l'info trafic</a> en temps réel.</p>
+        </template>
+      </div>
     </template>
-    <div class="card">
-      <template is="dom-if" if={{isStrike()}}>
-        <div class="flex-horizontal trafic-state">
-          <div class="circle orange"></div><h2>Perturbations !</h2>  
-        </div>
-        <div class="animation">
-          <img src="../images/gifs/[[getGif()]].gif">
-        </div>
-        <p>Le trafic est fortement perturbé, voir <a href="/trafic">l'info trafic</a> en temps réel.</p>
-      </template>
-      <template is="dom-if" if={{!isStrike()}}>
-        <div class="flex-horizontal trafic-state">
-          <div class="circle green"></div><h2>Pas de mouvement de grève aujourd'hui</h2>
-        </div>
-        <div class="animation">
-          <img src="../images/gifs/green.gif">
-        </div>
-        <p>Le trafic peut cependant être perturbé, voir <a href="/trafic">l'info trafic</a> en temps réel.</p>
-      </template>
-    </div>
   </template>
 
   <script>
@@ -114,16 +129,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           },
           dates: {
-            type: Array,
-            value: () => {
-              return {
-                3: [3,4,8,9,13,14,19,23,24,28,29], // April
-                4: [3,4,8,9,13,14,18,19,23,24,28,29], // May
-                5: [2,3,7,8,12,13,17,18,22,23,27,28] // June
-              }
-            }
-          }
+            type: Object
+          },
+          config: Object,
         };
+      }
+
+      ready() {
+        super.ready();
+        this.set('config', window.config);
       }
 
       getGif() {

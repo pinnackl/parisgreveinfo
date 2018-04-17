@@ -128,7 +128,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </app-route>
 
     <firebase-app
-      app="{{app}}"
       auth-domain="[[config.authDomain]]"
       database-url="[[config.databaseURL]]"
       api-key="[[config.apiKey]]"
@@ -202,6 +201,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String,
             value: "greve-icon:notifications-off"
           },
+          config: Object,
+          tostTitle: String,
+          tostMessage: String
         };
       }
 
