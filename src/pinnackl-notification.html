@@ -93,7 +93,7 @@
       data="[[token]]"></firebase-document>
     <section class="modal">
        <dialog id="favDialog" open$="[[open]]">
-        <h3>To keep hear from us, activate notifications</h3>
+        <h3>[[text]]</h3>
         <section class="actions">
           <paper-button on-tap="_discardNotification">CANCEL</paper-button>
           <paper-button on-tap="_grantNotification">OK</paper-button>
@@ -112,14 +112,14 @@
             value: false,
             reflectToAttribute: true
           },
-          position: {
-            type: Object,
+          text: {
+            type: String,
+            value: "Be alerted by pusn notification."
           },
-          latitude: {
-            type: Number
-          },
-          longitude: {
-            type: Number
+          token: {
+            type: String,
+            value: "",
+            observer: 'tokerChanged'
           },
           options: {
             type: Object,
@@ -133,11 +133,6 @@
           },
           notificationGranted: {
             type: Boolean
-          },
-          token: {
-            type: String,
-            value: "",
-            observer: 'tokerChanged'
           },
         };
       }

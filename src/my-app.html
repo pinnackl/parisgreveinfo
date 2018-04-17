@@ -242,8 +242,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       notificationReceive(e, detail) {
         this.$.toast.setAttribute('opened', true);
-        this.set('tostTitle', detail.message.notification.title);
-        this.set('tostMessage', detail.message.notification.body);
+        this.set('tostTitle', detail.message.data.title);
+        this.set('tostMessage', detail.message.data.body);
         this.timeout = setTimeout(() => {this.$.toast.removeAttribute('opened');}, 5000);
       }
 
