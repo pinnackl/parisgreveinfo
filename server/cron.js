@@ -70,7 +70,7 @@ jwtClient.authorize(function(error, tokens) {
           // https://developers.google.com/web/fundamentals/push-notifications/display-a-notification
           req.write(JSON.stringify({
             "to": token,
-            "notification": {
+            "data": {
               "badge": '/images/manifest/badge.png',
               "title": '🚅 Paris grève info',
               "vibrate": [2000, 100, 2000, 100, 2000],
