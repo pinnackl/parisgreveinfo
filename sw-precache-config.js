@@ -14,6 +14,13 @@ module.exports = {
   staticFileGlobs: [
     'bower_components/webcomponentsjs/webcomponents-loader.js',
     'manifest.json',
+    'src/config.js',
+    "images/gifs/black.gif",
+    "images/gifs/red.gif",
+    "images/gifs/orange.gif",
+    "images/gifs/green.gif",
+    "images/ratp/*.svg",
+    "images/ratp/**/*.svg",
   ],
   runtimeCaching: [
     {

@@ -137,6 +137,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <pinnackl-notification
       id="notification"
+      text="Souscrire aux notifications d'alert pour les jours de grève ?"
+      ok="OK"
+      cancel="ANNULÉE"
       on-notification-permission="notification"
       on-message-receive="notificationReceive"></pinnackl-notification>
 
@@ -187,6 +190,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
         return {
+          unresoled: {
+            type: Boolean,
+            value: true,
+            reflectToAttribute: true
+          },
           page: {
             type: String,
             reflectToAttribute: true,
@@ -216,6 +224,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready() {
         super.ready();
         this.set('config', window.config);
+        this.set('unresoled', false);
 
         this.$.auth.signInAnonymously().catch(function(error) {
           // Handle Errors here.

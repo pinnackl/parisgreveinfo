@@ -98,8 +98,8 @@
        <dialog id="favDialog" open$="[[open]]">
         <h3>[[text]]</h3>
         <section class="actions">
-          <paper-button on-tap="_discardNotification">CANCEL</paper-button>
-          <paper-button on-tap="_grantNotification">OK</paper-button>
+          <paper-button on-tap="_discardNotification">[[cancel]]</paper-button>
+          <paper-button on-tap="_grantNotification">[[ok]]</paper-button>
         </section>
       </dialog>
     </section>
@@ -118,6 +118,14 @@
           text: {
             type: String,
             value: "Be alerted by pusn notification."
+          },
+          cancel: {
+            type: String,
+            value: "cancel"
+          },
+          ok: {
+            type: String,
+            value: "ok"
           },
           token: {
             type: String,
@@ -155,21 +163,21 @@
             this.set('open', false);
         });
 
-        // Define if the sessionStorage was previoussly defined
-        const notificationGranted = window.sessionStorage.getItem('notificationGranted');
+        // Define if the localStorage was previoussly defined
+        const notificationGranted = window.localStorage.getItem('notificationGranted');
         if (notificationGranted == null || notificationGranted == "false")
-          return window.sessionStorage.setItem('notificationGranted', false);
+          return window.localStorage.setItem('notificationGranted', false);
 
         this._grantNotification();
       }
 
       askForNotification() {
-        let notificationGranted = window.sessionStorage.getItem('notificationGranted');
+        let notificationGranted = window.localStorage.getItem('notificationGranted');
         if (notificationGranted == "false") {
           this.set('open', true);
         } else {
           this.set('token', "null");
-          window.sessionStorage.setItem('notificationGranted', false);
+          window.localStorage.setItem('notificationGranted', false);
           // permission was denied
           this.fire('notification-permission', {granted: false});
           this.set('open', false);
@@ -181,19 +189,19 @@
       }
 
       tokerChanged(token) {
-        if (token != 'null') window.sessionStorage.setItem('token', token);
+        if (token != 'null') window.localStorage.setItem('token', token);
       }
 
       _grantNotification() {
         if ('PushManager' in window) {
           this.$.messaging.requestPermission().then(() => {
             
-            if (this.token == 'null' || this.token == window.sessionStorage.getItem('token')) {
-              this.set('token', window.sessionStorage.getItem('token'));
+            if (this.token == 'null' || this.token == window.localStorage.getItem('token')) {
+              this.set('token', window.localStorage.getItem('token'));
               this.$.doc.setStoredValue(this.$.doc.path, this.token);
             }
             // Keep in session the granted auth in session
-            window.sessionStorage.setItem('notificationGranted', true);
+            window.localStorage.setItem('notificationGranted', true);
             // Close the dialog
             this.set('open', false);
             this.fire('notification-permission', {granted: true});
