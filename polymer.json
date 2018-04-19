@@ -5,7 +5,8 @@
     "src/strike-info.html",
     "src/strike-trafic.html",
     "src/strike-404.html",
-    "src/pinnackl-notification.html"
+    "src/pinnackl-notification.html",
+    "src/strike-a-propos.html"
   ],
   "sources": [
     "images/**/*",

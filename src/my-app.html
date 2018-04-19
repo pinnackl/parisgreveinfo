@@ -30,6 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="lazy-import" href="strike-info.html">
 <link rel="lazy-import" href="strike-trafic.html">
+<link rel="lazy-import" href="strike-a-propos.html">
 <link rel="lazy-import" href="strike-404.html">
 <link rel="lazy-import" href="pinnackl-notification.html">
 
@@ -150,6 +151,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="info" href="[[rootPath]]info">Info</a>
           <a name="trafic" href="[[rootPath]]trafic">Trafic</a>
+          <a name="a-propos" href="[[rootPath]]a-propos">A propos</a>
         </iron-selector>
       </app-drawer>
 
@@ -170,6 +172,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             role="main">
           <strike-info name="info"></strike-info>
           <strike-trafic id="trafic" name="trafic"></strike-trafic>
+          <strike-a-propos name="a-propos"></strike-a-propos>
           <strike-404 name="404"></strike-404>
         </iron-pages>
       </app-header-layout>
@@ -239,6 +242,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             null,
             null,
             true);
+
+        // Identify first load
+        const firstLoad = window.localStorage.getItem('firstLoad');
+        if (firstLoad == null)
+          setTimeout(() => {
+            this.notificationReceive({}, {message: {data: {title: "🚨 Activé les notifications 🚨", body: "Activé les notifications pour être informé des prochaines perturbations."}}});
+          }, 5000);
+        return window.localStorage.setItem('firstLoad', false);
       }
 
       notification(e, detail) {
@@ -252,9 +263,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       notificationReceive(e, detail) {
-        this.$.toast.setAttribute('opened', true);
         this.set('tostTitle', detail.message.data.title);
         this.set('tostMessage', detail.message.data.body);
+        this.$.toast.setAttribute('opened', true);
         this.timeout = setTimeout(() => {this.$.toast.removeAttribute('opened');}, 5000);
       }
 
