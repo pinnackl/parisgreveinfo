@@ -136,14 +136,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       messaging-sender-id="[[config.messagingSenderId]]"></firebase-app>
     <firebase-auth id="auth"></firebase-auth>
 
-    <pinnackl-notification
-      id="notification"
-      text="Souscrire aux notifications d'alert pour les jours de grève ?"
-      ok="OK"
-      cancel="ANNULER"
-      on-notification-permission="notification"
-      on-message-receive="notificationReceive"></pinnackl-notification>
-
     <app-drawer-layout fullbleed narrow="{{narrow}}">
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
@@ -178,6 +170,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-header-layout>
     </app-drawer-layout>
 
+    <pinnackl-notification
+      id="notification"
+      text="Souscrire aux notifications d'alerte pour les jours de grève ?"
+      ok="OK"
+      cancel="ANNULER"
+      on-notification-permission="notification"
+      on-message-receive="notificationReceive"></pinnackl-notification>
 
     <div class="card toast" id="toast" on-click="remove"><small>[[tostTitle]]</small><p>[[tostMessage]]</p></div>
     <paper-fab icon="[[icon]]" on-tap="askNotification"></paper-fab>

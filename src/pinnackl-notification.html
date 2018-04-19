@@ -14,17 +14,19 @@
 
       :host([open]) {
         display: block;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
         z-index: 900;
-        height: 100vh;
+        height: 110vh;
         background-color: rgba(33, 33, 33, 0.6392156862745098);
       }
 
       section.modal {
+        position: relative;
+        transform: translate(0, -10vh);
         width: 100%;
         height: 100%;
 
@@ -46,16 +48,25 @@
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
+
+        z-index: 910;
       }
 
       dialog {
+        color: #757575;
         display: none;
         border: none;
+        /* supported modal properties */
+        padding: 1em;
+        margin: auto;
+        height: -webkit-fit-content;
+        /* supported modal properties */
         border-radius: 3px;
         width: 80%;
         user-select: none;
         -moz-user-select: none;
         -webkit-user-select: none;
+        background-color: #ffffff;
         box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
                     0 1px 18px 0 rgba(0, 0, 0, 0.12),
                     0 3px 5px -1px rgba(0, 0, 0, 0.4);
