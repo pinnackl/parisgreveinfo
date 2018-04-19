@@ -246,7 +246,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         const firstLoad = window.localStorage.getItem('firstLoad');
         if (firstLoad == null)
           setTimeout(() => {
-            this.notificationReceive({}, {message: {data: {title: "🚨 Activé les notifications 🚨", body: "Activé les notifications pour être informé des prochaines perturbations."}}});
+            this.notificationReceive({}, {message: {data: {title: "🚨 Activer les notifications 🚨", body: "Activez les notifications pour être informé des prochaines perturbations."}}});
           }, 5000);
         return window.localStorage.setItem('firstLoad', false);
       }
