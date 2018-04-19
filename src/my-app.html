@@ -241,7 +241,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         };
 
-        if (isMobile.iOS() || navigator.userAgent.indexOf("Safari") > -1) {
+        if (isMobile.iOS()) {
           console.log("Push notifications are not available on old Safari and iOS :(");
           this.$.fab.disabled = true;
           const firstLoad = window.localStorage.getItem('firstLoad');
