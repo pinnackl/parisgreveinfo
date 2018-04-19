@@ -179,7 +179,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-message-receive="notificationReceive"></pinnackl-notification>
 
     <div class="card toast" id="toast" on-click="remove"><small>[[tostTitle]]</small><p>[[tostMessage]]</p></div>
-    <paper-fab icon="[[icon]]" on-tap="askNotification"></paper-fab>
+    <paper-fab id="fab" icon="[[icon]]" on-tap="askNotification"></paper-fab>
   </template>
 
   <script>
@@ -234,6 +234,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var errorMessage = error.message;
           console.log(`Login error : ${errorCode} - ${errorMessage}`);
         });
+
+        const isMobile = {
+          iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+          }
+        };
+
+        if (isMobile.iOS() || navigator.userAgent.indexOf("Safari") > -1) {
+          console.log("Push notifications are not available on old Safari and iOS :(");
+          this.$.fab.disabled = true;
+          const firstLoad = window.localStorage.getItem('firstLoad');
+          if (firstLoad == null)
+            setTimeout(() => {
+              this.notificationReceive({}, {message: {data: {title: "Les notifications ne sont pas disponibles ☹", body: "Les notifications ne sont pas disponibles sur votre appareil."}}});
+            }, 5000);
+          return window.localStorage.setItem('firstLoad', false);
+          return;
+        }
 
         const resolvedPageUrl = this.resolveUrl('pinnackl-notification.html');
         Polymer.importHref(
