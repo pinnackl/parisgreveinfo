@@ -17,7 +17,7 @@ function escapeHtml(unsafe) {
          .replace(/\n/g, "");
 }
 
-const lines = ['H', 'J', 'K', 'L', 'N', 'P', 'U'];
+const lines = ['A', 'B', 'C', 'D', 'E', 'H', 'J', 'K', 'L', 'N', 'P', 'U'];
 const data = {disruption: []};
 
 // Make the request

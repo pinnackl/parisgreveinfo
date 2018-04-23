@@ -211,7 +211,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           as=line index-as=index>
             <section class="trafic">
               <header class="lines">
-                <img src$="/images/ratp/transilien/tn-icon-tra[[lower(line.line)]].svg">
+                <img src$="/images/ratp/[[getLineIco(line.line)]].svg">
                 <h3>Train [[line.line]]</h3>
               </header>
               <main>
@@ -262,6 +262,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready() {
         super.ready();
         this.set('config', window.config);
+      }
+
+      getLineIco(line) {
+        if (['a', 'b', 'c', 'd', 'e', ].includes(this.lower(line)))
+          return `rer/ligne${this.upper(line)}`;
+        return `transilien/tn-icon-tra${this.lower(line)}`;
+      }
+
+      upper(string) {
+        return string.toUpperCase();
       }
 
       lower(string) {
