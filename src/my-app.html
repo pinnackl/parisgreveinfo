@@ -235,14 +235,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log(`Login error : ${errorCode} - ${errorMessage}`);
         });
 
-        const isMobile = {
-          iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-          }
-        };
-
-        if (isMobile.iOS()) {
-          console.log("Push notifications are not available on old Safari and iOS :(");
+        // Feature detection for Service Worker, PushManager and showNotification
+        if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('showNotification' in ServiceWorkerRegistration.prototype)) {
+          console.log("Push notifications are not available on your device :'(");
           this.$.fab.disabled = true;
           const firstLoad = window.localStorage.getItem('firstLoad');
           if (firstLoad == null)
