@@ -58,10 +58,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .trafic-gl main {
-        word-wrap: pre
+        word-wrap: break-word;
         min-height: 100px;
         padding: 0.5em 1em;
         background-color: #f5f5f5;
+        text-align: justify;
       }
       
       .trafic-gl main p {
@@ -99,6 +100,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       [icon="greve-icon:directions-transit"] {
         color: var(--app-primary-color);
       }
+
+      [icon="greve-icon:info-outline"] {
+        color: orange;
+      }
+
+      .card-border span {
+        font-size: 0.8em;
+      }
     </style>
 
     <iron-ajax
@@ -132,11 +141,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <paper-tabs class="card" selected="{{selected}}" attr-for-selected="name" scrollable>
       <paper-tab name="rer">RER<iron-icon src="/images/ratp/rer.svg"></iron-icon></paper-tab>
+      <paper-tab name="transilien">Transilien<iron-icon src="/images/ratp/transilien.svg"></iron-icon></paper-tab>
       <paper-tab name="trams">Tramways<iron-icon src="/images/ratp/tram.svg"></iron-icon></paper-tab>
       <paper-tab name="metro">Métro<iron-icon src="/images/ratp/metro.svg"></iron-icon></paper-tab>
-      <paper-tab name="transilien">Transilien<iron-icon src="/images/ratp/transilien.svg"></iron-icon></paper-tab>
       <paper-tab name="lignes">Grandes lignes<iron-icon icon="greve-icon:directions-transit"></iron-icon></paper-tab>
     </paper-tabs>
+    <p class="card card-border"><iron-icon icon="greve-icon:info-outline"></iron-icon><span>&nbsp;Les inforlations de trafic ci-dessous peuvent parfois présenter un leger décalage</span></p>
     <iron-pages selected="{{selected}}" attr-for-selected="name">
       <section class="card rer" name="rer">
         <header>
@@ -154,6 +164,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <main>
                 <h4>[[line.title]]</h4>
                 <p>[[line.message]]</p>
+              </main>
+            </section>
+          </template>
+        </main>
+      </section>
+      <section class="card transilien" name="transilien">
+        <header>
+          <img src="/images/ratp/transilien.svg">
+          <h2>Transilien</h2>
+        </header>
+        <main>
+          <template is="dom-repeat" items={{transilienPersistedData.disruption}} 
+          as=line index-as=index>
+            <section class="trafic">
+              <header class="lines">
+                <img src$="/images/ratp/[[getLineIco(line.line)]].svg">
+                <h3>Train [[line.line]]</h3>
+              </header>
+              <main>
+                <p>[[line.status]]</p>
               </main>
             </section>
           </template>
@@ -199,26 +229,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </main>
           </section>
         </template>
-        </main>
-      </section>
-      <section class="card transilien" name="transilien">
-        <header>
-          <img src="/images/ratp/transilien.svg">
-          <h2>Transilien</h2>
-        </header>
-        <main>
-          <template is="dom-repeat" items={{transilienPersistedData.disruption}} 
-          as=line index-as=index>
-            <section class="trafic">
-              <header class="lines">
-                <img src$="/images/ratp/[[getLineIco(line.line)]].svg">
-                <h3>Train [[line.line]]</h3>
-              </header>
-              <main>
-                <p>[[line.status]]</p>
-              </main>
-            </section>
-          </template>
         </main>
       </section>
       <section class="card lignes" name="lignes">
